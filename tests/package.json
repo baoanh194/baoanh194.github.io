@@ -1,0 +1,20 @@
+{
+  "name": "tests",
+  "version": "1.0.0",
+  "description": "The project using Node.js with Jest for testing.",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "7S",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  },
+  "jest": {
+    "testEnvironment": "jsdom"
+  },
+  "dependencies": {
+    "punycode": "^2.3.1"
+  }
+}

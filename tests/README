@@ -1,0 +1,92 @@
+# The project using Node.js with Jest for testing.
+
+###########################################################
+### INSTALLATION
+###########################################################
+# We need to have Node.js and npm package manager installed.
+# Please refer to this link https://nodejs.org/en/download/package-manager or follow the below steps:
+
+# installs nvm (Node Version Manager)
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+# ensure that you have the below setting on your .bashrc
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# download and install Node.js (you may need to restart the terminal)
+nvm install 22
+
+# verifies the right Node.js version is in the environment
+node -v # should print `v22.3.0`
+
+# verifies the right NPM version is in the environment
+npm -v # should print `10.8.1`
+
+# Initialize project
+npm init -y
+# Wrote to /Users/baoadinh/esl/rabbitmq-internal/readiness-checker/tests/package.json:
+
+# {
+#   "name": "tests",
+#   "version": "1.0.0",
+#   "description": "The project using Node.js with Jest for testing.",
+#   "main": "index.js",
+#   "scripts": {
+#     "test": "echo \"Error: no test specified\" && exit 1"
+#   },
+#   "keywords": [],
+#   "author": "",
+#   "license": "ISC"
+# }
+
+# Install Jest
+# The node_modules directory and the package-lock.json file which is also created during the installation process.
+# The nodes_module is just a folder contain environment dependencies required by the application, we don't need to track it, so I push
+#it into .gitignore file
+# The package-lock.json should be committed to git. It ensures dependencies are consistent across environments.
+# Read more at: https://medium.com/@InspireTech/should-i-add-package-lock-json-to-git-why-is-it-important-to-commit-package-lock-json-into-git-e8273a8aad00#:~:text=By%20committing%20the%20package%2Dlock,the%20exact%20same%20dependency%20versions.
+npm install --save-dev jest
+
+# Update package.json
+"scripts": {
+  "test": "jest"
+}
+
+###########################################################
+### RUN TEST
+###########################################################
+# Run all SUITEs
+npm test
+
+# Run one test
+$ npm test src/analyze.test.js
+# > tests@1.0.0 test
+# > jest src/analyze.test.js
+
+#  PASS  src/analyze.test.js
+#   analyze
+#     ✓ should detect readiness with valid inputs and no issue (2 ms)
+#     ✓ should detect non-readiness with old RabbitMQ version
+#     ✓ should detect non-readiness with old Erlang/OTP version
+#     ✓ should detect non-readiness with non-durable mirrored queues
+#     ✓ should detect non-readiness with even number of nodes (1 ms)
+#     ✓ should detect non-readiness with two nodes
+#     ✓ should detect invalid number of node (<1)
+
+# Test Suites: 1 passed, 1 total
+# Tests:       7 passed, 7 total
+# Snapshots:   0 total
+# Time:        0.423 s, estimated 1 s
+
+
+###########################################################
+### ISSUES WHEN RUNNING
+###########################################################
+# If you encounter the issue "As of Jest 28 "jest-environment-jsdom" is no longer shipped by default, make sure to install it separately", please run the below command:
+npm install -D jest-environment-jsdom
+
+# (node:31071) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+# (Use `node --trace-deprecation ...` to show where the warning was created)
+# related link: https://stackoverflow.com/questions/68774489/punycode-is-deprecated-in-npm-what-should-i-replace-it-with
+nvm install 20.10.0
+nvm use 20.10.0
